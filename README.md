@@ -1,7 +1,7 @@
 # Filmiq
 Персональний веб-додаток для відстеження фільмів.
 Детальний опис проекту та фінальний дизайн у Figma:
-Переглянути дизайн можна за посиланням:   https://www.figma.com/design/JMgnFjIGZpBE1L47NAxQVS/Untitled?node-id=0-1&t=YqLnSwhhjHyqWbvy-1
+Переглянути дизайн:   https://www.figma.com/design/JMgnFjIGZpBE1L47NAxQVS/Untitled?node-id=0-1&t=YqLnSwhhjHyqWbvy-1
 
 1. Аутентифікація 
 Функціональність:
