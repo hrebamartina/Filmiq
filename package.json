@@ -12,17 +12,18 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.134.9",
     "modern-normalize": "^3.0.1",
     "normalize-scss": "^8.0.0",
     "normalize.css": "^8.0.1",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.4"
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@cypress/react": "^9.0.1",
     "@cypress/vite-dev-server": "^7.0.0",
     "@eslint/js": "^9.36.0",
+    "@tanstack/router-plugin": "^1.134.9",
     "@types/cypress": "^0.1.6",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",

@@ -1,7 +1,6 @@
-import styles from './Button.module.scss';
+import styles from "./Button.module.scss";
+import { Link } from "@tanstack/react-router";
 
 export default function RandomMovieBtn() {
-return (
-  <button className={styles.button}>Random Movie</button>
-)
+  return <Link to="/randomMovie" className={styles.button}>Random Movie</Link>;
 }

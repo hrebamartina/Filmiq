@@ -1,5 +1,9 @@
 .button {
-  background: linear-gradient(146deg, #5DA1FF 0%, #477EFF 100%);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  background: linear-gradient(146deg, #5da1ff 0%, #477eff 100%);
   width: 280px;
   height: 70px;
   border-radius: 37px;
@@ -7,13 +11,15 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
-    transform: scale(1.05); 
+    transform: scale(1.05);
   }
 
   &:active {
-    transform: scale(0.98); 
+    transform: scale(0.98);
   }
 }
