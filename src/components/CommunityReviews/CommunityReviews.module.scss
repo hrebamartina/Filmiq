@@ -1,0 +1,35 @@
+.communityReviews {
+  color: #f5f5f5;
+  max-width: 1200px; 
+  width: 100%;       
+
+  &__title {
+    border-bottom: 1px solid #5294e2;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-size: 25px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+  }
+
+  &__item {
+    background-color: rgba(40, 37, 50, 0.5);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  &__username {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    font-weight: 400;
+    color: #ccc;
+  }
+}
