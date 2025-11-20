@@ -23,35 +23,35 @@
   }
 
   &__avatar {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   h2 {
-    font-size: 30px;
+    font-size: 25px;
     margin: 0;
   }
 
   p {
-    font-size: 18px;
+    font-size: 16px;
     color: #aaa;
     margin: 6px 0 0;
   }
 
   &__stats {
     background-color: rgba(28, 26, 35, 0.7);
-    padding: 65px 95px;
+    padding: 45px 65px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    min-width: 300px;
+    min-width: 200px;
     margin-top: 88px;
 
     p {
       margin: 8px 0;
-      font-size: 20px;
+      font-size: 16px;
       color: #ffffff;
     }
   }
@@ -60,4 +60,12 @@
     text-transform: uppercase;
   }
 
+  &__title {
+    font-size: 16px !important;
+    font-weight: 300;
+    letter-spacing: 1px;
+     margin-bottom: 16px;
+    border-bottom: 1px solid #5da1ff;
+    padding-bottom: 8px;
+  }
 }

@@ -1,68 +1,64 @@
 .container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
- min-height: 100vh;
-  padding-top: 80px; 
-  background: linear-gradient(to right, #15141c 0%, #201b2b 100%);
-  color: #f5f5f5;
-
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .reviewBox {
-background: linear-gradient(to right, #15141c 0%, #201b2b 100%);
-  color: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  gap: 12px;
   width: 100%;
-  max-width: 700px;
+}
 
-  &__title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #bfbfc4;
+.reviewBox__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #bfbfc4;
+  text-align: left;
+}
+
+.reviewBox__textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background-color: rgba(40, 37, 50, 0.6);
+  color: #fff;
+  resize: vertical;
+  transition: background 0.2s ease;
+
+  &:focus {
+    background-color: rgba(40, 37, 50, 0.8);
   }
 
-  &__textarea {
-    width: 100%;
-    height: 100px;
-     background-color: rgba(40, 37, 50, 0.5);
-    border: none;
-    border-radius: 6px;
-    padding: 12px;
-    color: #ffffff;
-    resize: none;
-    font-size: 14px;
-    outline: none;
+  &::placeholder {
+    color: #aaa;
+  }
+}
 
-    &::placeholder {
-      color: #888;
-    }
+.reviewBox__button {
+  align-self: flex-end;
+  padding: 10px 28px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(to right, #16e98a, #00c37a);
+  color: #0b0b0f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
   }
 
-  &__button {
-
-    align-self: flex-end;
-    background: linear-gradient(to right, #16E98A 0%, #00C37A 100%);
-    color: #0b0b0f;
-    border: none;
-    border-radius: 100px;
-    padding: 10px 28px;
-    cursor: pointer;
-    transition: 0.2s ease;
-  
-
-    &:hover {
-      opacity: 0.9;
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
+  &:active {
+    transform: scale(0.97);
   }
 }

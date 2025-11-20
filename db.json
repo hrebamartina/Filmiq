@@ -1,0 +1,59 @@
+{
+  "user_profiles": [
+    {
+      "id": "1",
+      "email": "test@test.com",
+      "favorites": [],
+      "watchlist": []
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1763602165526",
+      "movieId": 1084222,
+      "userId": 1,
+      "text": "good",
+      "date": "2025-11-20T01:29:25.526Z"
+    },
+    {
+      "id": "1763602285818",
+      "movieId": 1116465,
+      "movieTitle": "A Legend",
+      "userId": 1,
+      "text": "wow",
+      "date": "2025-11-20T01:31:25.818Z"
+    },
+    {
+      "id": "1763602487224",
+      "movieId": 1197137,
+      "movieTitle": "Black Phone 2",
+      "userId": 1,
+      "text": "excellent\n",
+      "date": "2025-11-20T01:34:47.224Z"
+    },
+    {
+      "id": 1763605677299,
+      "movieId": 1246049,
+      "movieTitle": "Dracula",
+      "userId": 1,
+      "text": "very good",
+      "date": "2025-11-20T02:27:57.299Z"
+    },
+    {
+      "id": 1763606145018,
+      "movieId": 1468417,
+      "movieTitle": "First Moon",
+      "userId": 1,
+      "text": "good",
+      "date": "2025-11-20T02:35:45.018Z"
+    },
+    {
+      "id": 1763608135537,
+      "movieId": 1419406,
+      "movieTitle": "The Shadow's Edge",
+      "userId": 1,
+      "text": "hm",
+      "date": "2025-11-20T03:08:55.537Z"
+    }
+  ]
+}
