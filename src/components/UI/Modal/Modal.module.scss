@@ -1,0 +1,44 @@
+:global(dialog) {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+.modal {
+  padding: 60px 50px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #151320 0%, #1b1729 100%);
+  color: #fff;
+  width: 500px;
+  max-width: 90vw;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  overflow: hidden;
+  margin: auto;
+   position: relative;
+  top: -40px; 
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+  }
+}
