@@ -1,5 +1,4 @@
 import { create } from "zustand";
-
 export type TMovieListItem = {
   id: number;
   title: string;
@@ -7,39 +6,35 @@ export type TMovieListItem = {
 };
 
 export type TUser = {
-  id: number;
+  id: string;
   email: string;
   username?: string;
 };
 
 export type TReview = {
-  id: number;
-  userId: number;       
+  id: string;
+  userId: string;
   movieId: number;
-  movieTitle: string;  
+  movieTitle: string;
   text: string;
-  date: string;
+  createdAt: Date;
 };
 
-type ProfileStore = {
+type ProfileStoreType = {
   user: TUser | null;
   favorites: TMovieListItem[];
   watchlist: TMovieListItem[];
   reviews: TReview[];
 
   setUser: (user: TUser | null) => void;
-
   addFavorite: (movie: TMovieListItem) => void;
   removeFavorite: (id: number) => void;
-
+  setFavorites: (movies: TMovieListItem[]) => void;
   addWatchlist: (movie: TMovieListItem) => void;
   removeWatchlist: (id: number) => void;
-
-  setFavorites: (movies: TMovieListItem[]) => void;
   setWatchlist: (movies: TMovieListItem[]) => void;
-
   addReview: (review: TReview) => void;
-  removeReview: (date: string) => void;
+  removeReview: (id: string) => void;
   setReviews: (reviews: TReview[]) => void;
 };
 
@@ -47,58 +42,52 @@ const loadFromStorage = <T>(key: string): T[] => {
   try {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
-  } catch {
+  } catch (e) {
+    console.error(`Error loading ${key} from storage:`, e);
     return [];
   }
 };
-export const useProfileStore = create<ProfileStore>((set, get) => ({
-  user: null,
 
+const loadUserFromStorage = (): TUser | null => {
+  try {
+    const data = localStorage.getItem("user");
+    if (!data) return null;
+    const userData = JSON.parse(data);
+    return typeof userData.id === "string" ? userData : null;
+  } catch (e) {
+    console.error("Error loading user from storage:", e);
+    localStorage.removeItem("user");
+    return null;
+  }
+};
+
+const profileStore = create<ProfileStoreType>((set, get) => ({
+  user: loadUserFromStorage(),
   favorites: loadFromStorage<TMovieListItem>("favorites"),
   watchlist: loadFromStorage<TMovieListItem>("watchlist"),
-  reviews: loadFromStorage<TReview>("reviews"),
-  setUser: (user) => set({ user }),
-  addFavorite: (movie) => {
-    const newList = [...get().favorites, movie];
-    set({ favorites: newList });
-    localStorage.setItem("favorites", JSON.stringify(newList));
-  },
-  removeFavorite: (id) => {
-    const newList = get().favorites.filter((m) => m.id !== id);
-    set({ favorites: newList });
-    localStorage.setItem("favorites", JSON.stringify(newList));
-  },
-  setFavorites: (movies) => {
-    set({ favorites: movies });
-    localStorage.setItem("favorites", JSON.stringify(movies));
-  },
-  addWatchlist: (movie) => {
-    const newList = [...get().watchlist, movie];
-    set({ watchlist: newList });
-    localStorage.setItem("watchlist", JSON.stringify(newList));
-  },
-  removeWatchlist: (id) => {
-    const newList = get().watchlist.filter((m) => m.id !== id);
-    set({ watchlist: newList });
-    localStorage.setItem("watchlist", JSON.stringify(newList));
-  },
-  setWatchlist: (movies) => {
-    set({ watchlist: movies });
-    localStorage.setItem("watchlist", JSON.stringify(movies));
+  reviews: [],
+
+  setUser: (user) => {
+    set({ user });
+    if (user) localStorage.setItem("user", JSON.stringify(user));
+    else localStorage.removeItem("user");
   },
 
-  addReview: (review) => {
-    const newList = [...get().reviews, review];
-    set({ reviews: newList });
-    localStorage.setItem("reviews", JSON.stringify(newList));
-  },
-  removeReview: (date) => {
-    const newList = get().reviews.filter((r) => r.date !== date);
-    set({ reviews: newList });
-    localStorage.setItem("reviews", JSON.stringify(newList));
-  },
-  setReviews: (reviews) => {
-    set({ reviews });
-    localStorage.setItem("reviews", JSON.stringify(reviews));
-  },
+  addFavorite: (movie) => set({ favorites: [...get().favorites, movie] }),
+  removeFavorite: (id) =>
+    set({ favorites: get().favorites.filter((m) => m.id !== id) }),
+  setFavorites: (movies) => set({ favorites: movies }),
+
+  addWatchlist: (movie) => set({ watchlist: [...get().watchlist, movie] }),
+  removeWatchlist: (id) =>
+    set({ watchlist: get().watchlist.filter((m) => m.id !== id) }),
+  setWatchlist: (movies) => set({ watchlist: movies }),
+
+  addReview: (review) => set({ reviews: [...get().reviews, review] }),
+  removeReview: (id) =>
+    set({ reviews: get().reviews.filter((r) => r.id !== id) }),
+  setReviews: (reviews) => set({ reviews })
 }));
+
+export const useProfileStore = profileStore;
+export { profileStore };

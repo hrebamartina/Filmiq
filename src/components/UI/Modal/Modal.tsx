@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import styles from './Modal.module.scss'
+import styles from "./Modal.module.scss";
 
 type ModalProps = {
   open: boolean;
@@ -9,7 +9,12 @@ type ModalProps = {
   className?: string;
 };
 
-export default function Modal({ open, onClose, children, className}: ModalProps) {
+export default function Modal({
+  open,
+  onClose,
+  children,
+  className
+}: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const modalRoot = document.getElementById("modal-root")!;
 

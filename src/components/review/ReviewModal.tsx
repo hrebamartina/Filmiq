@@ -1,6 +1,6 @@
-import Modal from '../UI/Modal/Modal';
-import Review from './Review';
-import styles from './ReviewModal.module.scss';
+import Modal from "../UI/Modal/Modal";
+import Review from "./Review";
+import styles from "./ReviewModal.module.scss";
 
 interface Props {
   isOpen: boolean;
@@ -9,14 +9,15 @@ interface Props {
   movieId: number;
 }
 
-export default function ReviewModal({ isOpen, onClose, movieTitle, movieId }: Props) {
+export default function ReviewModal({
+  isOpen,
+  onClose,
+  movieTitle,
+  movieId
+}: Props) {
   return (
     <Modal open={isOpen} onClose={onClose} className={styles.reviewModal}>
-      <Review 
-        title={movieTitle}
-        movieId={movieId}
-        onClose={onClose}
-      />
+      <Review movieTitle={movieTitle} movieId={movieId} onClose={onClose} />
     </Modal>
   );
 }

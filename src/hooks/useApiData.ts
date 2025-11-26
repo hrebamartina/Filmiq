@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = "http://localhost:3001";
 export const useMutation = <TData>() => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const mutate = async (
     endpoint: string,
-    method: 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+    method: "POST" | "PUT" | "PATCH" | "DELETE",
     body?: object
   ): Promise<TData> => {
     setIsLoading(true);
@@ -16,8 +16,8 @@ export const useMutation = <TData>() => {
     try {
       const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: body ? JSON.stringify(body) : undefined,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined
       });
 
       if (!response.ok) {
@@ -27,7 +27,7 @@ export const useMutation = <TData>() => {
 
       return (await response.json()) as TData;
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Error';
+      const msg = err instanceof Error ? err.message : "Error";
       setError(msg);
       throw new Error(msg);
     } finally {

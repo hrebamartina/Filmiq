@@ -2,31 +2,41 @@ import styles from "./Auth.module.scss";
 import logo from "../../assets/logo.svg";
 import { useAuthModalStore } from "../../store/authModalStore";
 import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 type SignupFormProps = {
   onSwitchToLogin: () => void;
 };
 
 export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
-
   const closeModal = useAuthModalStore((state) => state.closeModal);
+  const { register, isLoading, error: authError } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    setFormError(null);
 
     if (password !== confirmPassword) {
-      setError("Паролі не співпадають");
+      setFormError("Passwords do not match.");
       return;
     }
 
-    console.log("Форма реєстрації відправлена (поки без API):", { email, password });
-    closeModal();
+    if (password.length < 6) {
+      setFormError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    try {
+      await register({ email, password, confirmPassword });
+      closeModal();
+    } catch (err) {
+      console.error("Registration error:", err);
+    }
   };
 
   return (
@@ -42,6 +52,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
         <input
           type="password"
           placeholder="Password"
@@ -50,6 +61,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <input
           type="password"
           placeholder="Confirm password"
@@ -58,17 +70,27 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        
-        {error && <p className={styles.login__error}>{error}</p>}
 
-        <button type="submit" className={styles.login__button}>
-          Sign up
+        {(formError || authError) && (
+          <p className={styles.login__error}>{formError || authError}</p>
+        )}
+
+        <button
+          type="submit"
+          className={styles.login__button}
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Sign up"}
         </button>
       </form>
 
       <p className="login-modal__signup">
         Already have an account?
-        <button type="button" className={styles.login__link} onClick={onSwitchToLogin}>
+        <button
+          type="button"
+          className={styles.login__link}
+          onClick={onSwitchToLogin}
+        >
           Login
         </button>
       </p>

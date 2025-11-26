@@ -52,9 +52,6 @@ export default function Footer() {
             <li>
               <Link to="/randomMovie">Random Movie</Link>
             </li>
-            <li>
-              <Link to="/logout">Logout</Link>
-            </li>
           </ul>
           <button className={styles.footer__scroll}>
             <img src={scrollUp} alt="scroll" />
