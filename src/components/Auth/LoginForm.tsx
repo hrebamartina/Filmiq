@@ -10,7 +10,7 @@ type LoginFormProps = {
 
 export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   const closeModal = useAuthModalStore((state) => state.closeModal);
-  const { login, isLoading, error } = useAuth(); // підключаємо useAuth
+  const { login, isLoading, error } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,8 +19,8 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
     e.preventDefault();
 
     try {
-      await login({ email, password });
-      closeModal();
+      await login({ email, password }); 
+      closeModal(); 
     } catch (err) {
       console.error(err);
     }
@@ -50,7 +50,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
         <button
           type="submit"
           className={styles.login__button}
-          disabled={isLoading}
+          disabled={isLoading} 
         >
           {isLoading ? "Loading..." : "Log In"}
         </button>
@@ -60,11 +60,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
 
       <p className={styles.login__signup}>
         Don’t have an account?
-        <button
-          type="button"
-          className={styles.login__link}
-          onClick={onSwitchToSignup}
-        >
+        <button type="button" className={styles.login__link} onClick={onSwitchToSignup}>
           Sign up
         </button>
       </p>
