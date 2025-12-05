@@ -8,97 +8,97 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as RandomMovieRouteImport } from "./routes/randomMovie";
-import { Route as ProfileRouteImport } from "./routes/profile";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as MovieIdRouteImport } from "./routes/movie.$id";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as RandomMovieRouteImport } from './routes/randomMovie'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as MovieIdRouteImport } from './routes/movie.$id'
 
 const RandomMovieRoute = RandomMovieRouteImport.update({
-  id: "/randomMovie",
-  path: "/randomMovie",
-  getParentRoute: () => rootRouteImport
-} as any);
+  id: '/randomMovie',
+  path: '/randomMovie',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
-  id: "/profile",
-  path: "/profile",
-  getParentRoute: () => rootRouteImport
-} as any);
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
-  getParentRoute: () => rootRouteImport
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MovieIdRoute = MovieIdRouteImport.update({
-  id: "/movie/$id",
-  path: "/movie/$id",
-  getParentRoute: () => rootRouteImport
-} as any);
+  id: '/movie/$id',
+  path: '/movie/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/profile": typeof ProfileRoute;
-  "/randomMovie": typeof RandomMovieRoute;
-  "/movie/$id": typeof MovieIdRoute;
+  '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/randomMovie': typeof RandomMovieRoute
+  '/movie/$id': typeof MovieIdRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/profile": typeof ProfileRoute;
-  "/randomMovie": typeof RandomMovieRoute;
-  "/movie/$id": typeof MovieIdRoute;
+  '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/randomMovie': typeof RandomMovieRoute
+  '/movie/$id': typeof MovieIdRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/profile": typeof ProfileRoute;
-  "/randomMovie": typeof RandomMovieRoute;
-  "/movie/$id": typeof MovieIdRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/profile': typeof ProfileRoute
+  '/randomMovie': typeof RandomMovieRoute
+  '/movie/$id': typeof MovieIdRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/profile" | "/randomMovie" | "/movie/$id";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/profile" | "/randomMovie" | "/movie/$id";
-  id: "__root__" | "/" | "/profile" | "/randomMovie" | "/movie/$id";
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/profile' | '/randomMovie' | '/movie/$id'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/profile' | '/randomMovie' | '/movie/$id'
+  id: '__root__' | '/' | '/profile' | '/randomMovie' | '/movie/$id'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  ProfileRoute: typeof ProfileRoute;
-  RandomMovieRoute: typeof RandomMovieRoute;
-  MovieIdRoute: typeof MovieIdRoute;
+  IndexRoute: typeof IndexRoute
+  ProfileRoute: typeof ProfileRoute
+  RandomMovieRoute: typeof RandomMovieRoute
+  MovieIdRoute: typeof MovieIdRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/randomMovie": {
-      id: "/randomMovie";
-      path: "/randomMovie";
-      fullPath: "/randomMovie";
-      preLoaderRoute: typeof RandomMovieRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/profile": {
-      id: "/profile";
-      path: "/profile";
-      fullPath: "/profile";
-      preLoaderRoute: typeof ProfileRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/movie/$id": {
-      id: "/movie/$id";
-      path: "/movie/$id";
-      fullPath: "/movie/$id";
-      preLoaderRoute: typeof MovieIdRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+    '/randomMovie': {
+      id: '/randomMovie'
+      path: '/randomMovie'
+      fullPath: '/randomMovie'
+      preLoaderRoute: typeof RandomMovieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movie/$id': {
+      id: '/movie/$id'
+      path: '/movie/$id'
+      fullPath: '/movie/$id'
+      preLoaderRoute: typeof MovieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,8 +106,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProfileRoute: ProfileRoute,
   RandomMovieRoute: RandomMovieRoute,
-  MovieIdRoute: MovieIdRoute
-};
+  MovieIdRoute: MovieIdRoute,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
