@@ -1,0 +1,117 @@
+@use "/src/styles/variables" as vars;
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(25, 21, 35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 60px;
+  color: #d2cfcf;
+  margin: 0 auto;
+  font-size: 16px;
+
+  &__top {
+    width: 100%;
+    background-color: rgba(21, 19, 30);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 364px;
+    padding: 20px 40px;
+    margin-bottom: 40px;
+    font-size: 16px;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 390px;
+    max-width: 1200px;
+    padding: 0 40px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+
+    p:first-child {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+
+      &::before {
+        content: "© 2025";
+        font-weight: normal;
+        align-self: center;
+      }
+
+      img {
+        height: 20px;
+        vertical-align: middle;
+      }
+    }
+
+    p:last-child {
+      margin: 0;
+    }
+  }
+
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+
+    &-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+
+  &__right {
+    gap: 108px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  &__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 6px;
+
+      a {
+        color: #d2cfcf;
+        text-decoration: none;
+
+        &:hover {
+          color: #5da1ff;
+        }
+      }
+    }
+  }
+
+  &__scroll {
+    all: unset;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-10px);
+  }
+}
