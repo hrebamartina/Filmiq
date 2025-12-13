@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"; // Для авторизації
-import { getFirestore } from "firebase/firestore"; // Для бази даних (списки, відгуки)
+import { getAuth } from "firebase/auth"; 
+import { getFirestore } from "firebase/firestore"; 
 
-// Ваша веб-конфігурація
+
 const firebaseConfig = {
   apiKey: "AIzaSyAP4l8EYBovGHHvOlOgJSTBPyGc_omSPzk",
   authDomain: "filmiq-2af7c.firebaseapp.com",
@@ -13,9 +13,9 @@ const firebaseConfig = {
   measurementId: "G-ZV3SE13HMN"
 };
 
-// Ініціалізація Firebase
+
 const app = initializeApp(firebaseConfig);
 
-// Експортуємо ініціалізовані сервіси для використання в хуках
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
