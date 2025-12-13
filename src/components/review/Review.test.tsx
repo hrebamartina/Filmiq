@@ -17,7 +17,9 @@ vi.mock("../../store/userStore", () => ({
 describe("Review", () => {
   it("renders form correctly", () => {
     render(<Review movieId={1} movieTitle="Movie" onClose={() => {}} />);
-    expect(screen.getByPlaceholderText("Write your review here...")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Write your review here...")
+    ).toBeInTheDocument();
     expect(screen.getByText("Post Review")).toBeInTheDocument();
   });
 
@@ -31,7 +33,9 @@ describe("Review", () => {
     fireEvent.click(screen.getByText("Post Review"));
 
     await waitFor(() => {
-      expect(screen.getByText("Review posted successfully!")).toBeInTheDocument();
+      expect(
+        screen.getByText("Review posted successfully!")
+      ).toBeInTheDocument();
     });
   });
 });

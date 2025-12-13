@@ -8,7 +8,7 @@ describe("MovieCard", () => {
       title: "Inception",
       overview: "A mind-bending thriller about dreams within dreams.",
       release_date: "2010-07-16",
-      poster_path: "/inception.jpg",
+      poster_path: "/inception.jpg"
     };
 
     render(

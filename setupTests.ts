@@ -7,10 +7,10 @@ class MockIntersectionObserver {
   unobserve() {}
   disconnect() {}
 }
-Object.defineProperty(globalThis, 'IntersectionObserver', {
+Object.defineProperty(globalThis, "IntersectionObserver", {
   writable: true,
   configurable: true,
-  value: MockIntersectionObserver,
+  value: MockIntersectionObserver
 });
 
 // Мок методів <dialog>
@@ -18,4 +18,5 @@ HTMLDialogElement.prototype.showModal = function () {};
 HTMLDialogElement.prototype.close = function () {};
 
 // Мок createPortal (типізовано для TS)
-ReactDOM.createPortal = ((node: React.ReactNode) => node) as unknown as typeof ReactDOM.createPortal;
+ReactDOM.createPortal = ((node: React.ReactNode) =>
+  node) as unknown as typeof ReactDOM.createPortal;

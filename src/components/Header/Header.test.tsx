@@ -8,31 +8,33 @@ vi.mock("../../store/authModalStore", () => ({
     openModal: vi.fn(),
     closeModal: vi.fn(),
     switchToLogin: vi.fn(),
-    switchToSignup: vi.fn(),
-  }),
+    switchToSignup: vi.fn()
+  })
 }));
 
 vi.mock("../../store/userStore", () => ({
   useProfileStore: () => ({
-    user: { name: "Test User" }, 
-  }),
+    user: { name: "Test User" }
+  })
 }));
 
 vi.mock("../../hooks/useAuth", () => ({
   useAuth: () => ({
-    logout: vi.fn(),
-  }),
+    logout: vi.fn()
+  })
 }));
 
 vi.mock("@tanstack/react-router", async () => {
-  const actual = await vi.importActual<
-    typeof import("@tanstack/react-router")
-  >("@tanstack/react-router");
+  const actual = await vi.importActual<typeof import("@tanstack/react-router")>(
+    "@tanstack/react-router"
+  );
 
   return {
     ...actual,
     useNavigate: () => vi.fn(),
-    Link: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
+    Link: ({ children }: { children: React.ReactNode }) => (
+      <span>{children}</span>
+    )
   };
 });
 
