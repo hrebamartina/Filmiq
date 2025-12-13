@@ -16,9 +16,13 @@ export default function ReviewModal({
   movieId
 }: Props) {
   return (
-    <Modal open={isOpen} onClose={onClose} className={styles.reviewModal} data-cy="review-modal">
-  <Review movieTitle={movieTitle} movieId={movieId} onClose={onClose} />
-</Modal>
-
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      className={styles.reviewModal}
+      data-cy="review-modal"
+    >
+      <Review movieTitle={movieTitle} movieId={movieId} onClose={onClose} />
+    </Modal>
   );
 }

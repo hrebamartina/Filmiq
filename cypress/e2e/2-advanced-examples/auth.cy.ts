@@ -16,7 +16,9 @@ describe("Authentication E2E Tests", () => {
   context("Login Form Functionality", () => {
     it("1. should successfully log in a user with valid credentials and redirect", () => {
       cy.get("@authModal").find('[data-cy="login-email"]').type(VALID_EMAIL);
-      cy.get("@authModal").find('[data-cy="login-password"]').type(VALID_PASSWORD);
+      cy.get("@authModal")
+        .find('[data-cy="login-password"]')
+        .type(VALID_PASSWORD);
       cy.get("@authModal").find('[data-cy="login-submit"]').click();
 
       cy.get('[data-cy="auth-modal"]').should("not.exist");
@@ -26,7 +28,9 @@ describe("Authentication E2E Tests", () => {
 
     it("2. should display an error message for invalid login credentials", () => {
       cy.get("@authModal").find('[data-cy="login-email"]').type(INVALID_EMAIL);
-      cy.get("@authModal").find('[data-cy="login-password"]').type(INVALID_PASSWORD);
+      cy.get("@authModal")
+        .find('[data-cy="login-password"]')
+        .type(INVALID_PASSWORD);
       cy.get("@authModal").find('[data-cy="login-submit"]').click();
 
       cy.get("@authModal")
@@ -45,9 +49,15 @@ describe("Authentication E2E Tests", () => {
     });
 
     it("3. should display error when passwords do not match", () => {
-      cy.get("@authModal").find('[data-cy="signup-email"]').type("temp_user@test.com");
-      cy.get("@authModal").find('[data-cy="signup-password"]').type("SecurePass123");
-      cy.get("@authModal").find('[data-cy="signup-confirm-password"]').type("DifferentPass456");
+      cy.get("@authModal")
+        .find('[data-cy="signup-email"]')
+        .type("temp_user@test.com");
+      cy.get("@authModal")
+        .find('[data-cy="signup-password"]')
+        .type("SecurePass123");
+      cy.get("@authModal")
+        .find('[data-cy="signup-confirm-password"]')
+        .type("DifferentPass456");
       cy.get("@authModal").find('[data-cy="signup-submit"]').click();
 
       cy.get("@authModal")
@@ -61,8 +71,12 @@ describe("Authentication E2E Tests", () => {
     it("4. should successfully submit signup form (passwords match) and close modal", () => {
       const newEmail = `user${Date.now()}@test.com`;
       cy.get("@authModal").find('[data-cy="signup-email"]').type(newEmail);
-      cy.get("@authModal").find('[data-cy="signup-password"]').type(VALID_PASSWORD);
-      cy.get("@authModal").find('[data-cy="signup-confirm-password"]').type(VALID_PASSWORD);
+      cy.get("@authModal")
+        .find('[data-cy="signup-password"]')
+        .type(VALID_PASSWORD);
+      cy.get("@authModal")
+        .find('[data-cy="signup-confirm-password"]')
+        .type(VALID_PASSWORD);
       cy.get("@authModal").find('[data-cy="signup-submit"]').click();
 
       cy.get('[data-cy="auth-modal"]').should("not.exist");

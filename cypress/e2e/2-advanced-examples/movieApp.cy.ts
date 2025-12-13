@@ -28,8 +28,6 @@ describe("Movie App – smoke e2e tests", () => {
 
     cy.visit("/");
 
-    cy.wait("@getMovies")
-      .its("response.statusCode")
-      .should("eq", 200);
+    cy.wait("@getMovies").its("response.statusCode").should("eq", 200);
   });
 });

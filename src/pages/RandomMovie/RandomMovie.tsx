@@ -118,14 +118,18 @@ export default function RandomMovie() {
       <div className={styles.random__actions}>
         <button
           className={styles.add}
-           data-cy="add-watchlist"  
+          data-cy="add-watchlist"
           onClick={handleAddToWatchlist}
           disabled={isListLoading || !isAuthenticated || added}
         >
           {added ? "Added to Watchlist" : "Add to Watchlist"}
         </button>
 
-        <button className={styles.try} onClick={handleTryAnother} data-cy="try-another">
+        <button
+          className={styles.try}
+          onClick={handleTryAnother}
+          data-cy="try-another"
+        >
           Try another
         </button>
       </div>

@@ -39,57 +39,57 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
       <img src={logo} alt="logo" />
 
       <form className={styles.login__form} onSubmit={handleSubmit}>
-  <input
-    type="email"
-    placeholder="Email"
-    data-cy="signup-email"
-    className={styles.login__input}
-    required
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-  />
-  <input
-    type="password"
-    placeholder="Password"
-    data-cy="signup-password"
-    className={styles.login__input}
-    required
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-  />
-  <input
-    type="password"
-    placeholder="Confirm password"
-    data-cy="signup-confirm-password"
-    className={styles.login__input}
-    required
-    value={confirmPassword}
-    onChange={(e) => setConfirmPassword(e.target.value)}
-  />
-  <button
-    type="submit"
-    data-cy="signup-submit"
-    className={styles.login__button}
-    disabled={isLoading}
-  >
-    {isLoading ? "Loading..." : "Sign up"}
-  </button>
+        <input
+          type="email"
+          placeholder="Email"
+          data-cy="signup-email"
+          className={styles.login__input}
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          data-cy="signup-password"
+          className={styles.login__input}
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Confirm password"
+          data-cy="signup-confirm-password"
+          className={styles.login__input}
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <button
+          type="submit"
+          data-cy="signup-submit"
+          className={styles.login__button}
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Sign up"}
+        </button>
 
-  {(formError || authError) && (
-    <p data-cy="signup-error" className={styles.login__error}>
-      {formError || authError}
-    </p>
-  )}
-</form>
+        {(formError || authError) && (
+          <p data-cy="signup-error" className={styles.login__error}>
+            {formError || authError}
+          </p>
+        )}
+      </form>
 
-<button
-  type="button"
-  data-cy="switch-to-login"
-  className={styles.login__link}
-  onClick={onSwitchToLogin}
->
-  Log in
-</button>
+      <button
+        type="button"
+        data-cy="switch-to-login"
+        className={styles.login__link}
+        onClick={onSwitchToLogin}
+      >
+        Log in
+      </button>
     </div>
   );
 }
