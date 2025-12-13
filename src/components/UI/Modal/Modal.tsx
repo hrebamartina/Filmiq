@@ -33,6 +33,7 @@ export default function Modal({
     <dialog
       ref={dialogRef}
       className={`${styles.modal} ${className || ""}`}
+      data-cy="review-modal"
       onClick={(e) => {
         if ((e.target as HTMLElement).nodeName === "DIALOG") onClose();
       }}

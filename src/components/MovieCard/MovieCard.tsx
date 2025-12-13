@@ -44,7 +44,7 @@ export default function MovieCard({
   };
 
   return (
-    <section className={styles.movieCard}>
+    <section className={styles.movieCard} data-cy="movie-card">
       <img
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}

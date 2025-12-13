@@ -86,6 +86,7 @@ export default function RandomMovie() {
         <h2>Choose a genre to discover a random movie:</h2>
         <div className={styles["random__select-wrapper"]}>
           <select
+            data-cy="genre-select"
             aria-label="Select movie genre"
             className={styles.random__select}
             value={genre}
@@ -117,13 +118,14 @@ export default function RandomMovie() {
       <div className={styles.random__actions}>
         <button
           className={styles.add}
+           data-cy="add-watchlist"  
           onClick={handleAddToWatchlist}
           disabled={isListLoading || !isAuthenticated || added}
         >
           {added ? "Added to Watchlist" : "Add to Watchlist"}
         </button>
 
-        <button className={styles.try} onClick={handleTryAnother}>
+        <button className={styles.try} onClick={handleTryAnother} data-cy="try-another">
           Try another
         </button>
       </div>
