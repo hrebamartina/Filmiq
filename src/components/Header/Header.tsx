@@ -2,16 +2,53 @@ import styles from "./Header.module.scss";
 import logo from "../../assets/logo.svg";
 import searchIcon from "../../assets/searchIcon.svg";
 import profileIcon from "../../assets/profileIcon.svg";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuthModalStore } from '../../store/authModalStore';
+import { useState, useEffect } from "react";
 
-
+type MovieSearchResult = {
+  id: number;
+  title: string;
+  poster_path: string | null;
+};
 
 export default function Header() {
-
   const openModal = useAuthModalStore((state) => state.openModal);
- 
+  const navigate = useNavigate();
 
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<MovieSearchResult[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    const delayDebounce = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+        );
+        const data = await res.json();
+        setResults(data.results || []);
+      } catch (err) {
+        console.error("Search error:", err);
+      } finally {
+        setLoading(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [query]);
+
+  const handleSelectMovie = (id: number) => {
+    setQuery("");
+    setResults([]);
+    navigate({ to: "/movie/$id", params: { id: id.toString() } });
+  };
 
   return (
     <header className={styles.header}>
@@ -28,7 +65,25 @@ export default function Header() {
             type="text"
             placeholder="Search..."
             className={styles["header__search-input"]}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
+          {query && results.length > 0 && (
+            <ul className={styles["header__search-results"]}>
+              {results.slice(0, 5).map((movie) => (
+                <li
+                  key={movie.id}
+                  onClick={() => handleSelectMovie(movie.id)}
+                  className={styles["header__search-result-item"]}
+                >
+                  {movie.title}
+                </li>
+              ))}
+            </ul>
+          )}
+          {loading && (
+            <div className={styles["header__search-loading"]}>Loading...</div>
+          )}
         </div>
 
         <nav className={styles.header__nav}>
@@ -43,14 +98,13 @@ export default function Header() {
             Random Movie
           </Link>
 
- <button
+          <button
             type="button"
-            className={styles["header__nav-item"]} 
+            className={styles["header__nav-item"]}
             onClick={() => openModal('login')}
           >
             Log In
           </button>
-        
         </nav>
       </div>
     </header>
