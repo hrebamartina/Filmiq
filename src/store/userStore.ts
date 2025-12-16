@@ -14,9 +14,9 @@ export type TUser = {
 
 export type TReview = {
   id: number;
-  userId: number;       
+  userId: number;
   movieId: number;
-  movieTitle: string;  
+  movieTitle: string;
   text: string;
   date: string;
 };
@@ -100,5 +100,5 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   setReviews: (reviews) => {
     set({ reviews });
     localStorage.setItem("reviews", JSON.stringify(reviews));
-  },
+  }
 }));

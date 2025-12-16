@@ -3,7 +3,6 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import { useEffect, useState } from "react";
 import type { Movie } from "../../types/movie";
 
-
 const GENRES: Record<string, number> = {
   action: 28,
   comedy: 35,
@@ -11,7 +10,7 @@ const GENRES: Record<string, number> = {
   romance: 10749,
   sciFi: 878,
   drama: 18,
-  adventure: 12,
+  adventure: 12
 };
 
 export default function RandomMovie() {
@@ -28,11 +27,13 @@ export default function RandomMovie() {
       const discoverData = await discoverRes.json();
 
       const randomMovie =
-        discoverData.results[Math.floor(Math.random() * discoverData.results.length)];
+        discoverData.results[
+          Math.floor(Math.random() * discoverData.results.length)
+        ];
 
       const fullRes = await fetch(
-  `https://api.themoviedb.org/3/movie/${randomMovie.id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&append_to_response=credits`
-);
+        `https://api.themoviedb.org/3/movie/${randomMovie.id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&append_to_response=credits`
+      );
 
       const fullMovie = await fullRes.json();
 

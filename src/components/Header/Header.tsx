@@ -3,7 +3,7 @@ import logo from "../../assets/logo.svg";
 import searchIcon from "../../assets/searchIcon.svg";
 import profileIcon from "../../assets/profileIcon.svg";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useAuthModalStore } from '../../store/authModalStore';
+import { useAuthModalStore } from "../../store/authModalStore";
 import { useState, useEffect } from "react";
 
 type MovieSearchResult = {
@@ -101,7 +101,7 @@ export default function Header() {
           <button
             type="button"
             className={styles["header__nav-item"]}
-            onClick={() => openModal('login')}
+            onClick={() => openModal("login")}
           >
             Log In
           </button>

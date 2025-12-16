@@ -9,11 +9,15 @@ import type { TMovieListItem } from "../../../store/userStore";
 
 interface MovieSliderProps {
   title?: string;
-  movies: TMovieListItem[]; 
+  movies: TMovieListItem[];
   onSelectMovie: (movie: TMovieListItem) => void;
 }
 
-export default function Slider({ title, movies, onSelectMovie }: MovieSliderProps) {
+export default function Slider({
+  title,
+  movies,
+  onSelectMovie
+}: MovieSliderProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [isActive, setIsActive] = useState(false);
@@ -59,13 +63,17 @@ export default function Slider({ title, movies, onSelectMovie }: MovieSliderProp
           320: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 4 },
-          1280: { slidesPerView: 6 },
+          1280: { slidesPerView: 6 }
         }}
       >
         {movies.map((movie: TMovieListItem) => (
           <SwiperSlide key={movie.id} onClick={() => onSelectMovie(movie)}>
             <img
-              src={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : ""}
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                  : ""
+              }
               alt={movie.title}
               className={styles.poster}
             />

@@ -1,10 +1,8 @@
-
 import * as React from "react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import AuthModals from "../components/Auth/AuthModals";
-
 
 export const Route = createRootRoute({
   component: RootComponent
@@ -12,13 +10,11 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-  
-      <React.Fragment>
-        <Header />
-        <Outlet />
+    <React.Fragment>
+      <Header />
+      <Outlet />
       <AuthModals />
-        <Footer />
-      </React.Fragment>
-   
+      <Footer />
+    </React.Fragment>
   );
 }

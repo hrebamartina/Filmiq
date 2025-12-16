@@ -33,9 +33,7 @@ export default function CommunityReviews({ reviews }: CommunityReviewsProps) {
                 )}
               </p>
 
-              <p className={styles.communityReviews__text}>
-                {review.content}
-              </p>
+              <p className={styles.communityReviews__text}>{review.content}</p>
             </div>
           ))}
         </div>

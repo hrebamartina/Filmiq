@@ -37,11 +37,14 @@ export default function MovieDetails() {
   const isFavorite = favorites.some((m) => m.id === movieId);
   const inWatchlist = watchlist.some((m) => m.id === movieId);
   const isAuthenticated = !!user;
-  const movieItem: TMovieListItem = useMemo(() => ({
-    id: movie?.id || 0,
-    title: movie?.title || "",
-    poster_path: movie?.poster_path || null,
-  }), [movie]);
+  const movieItem: TMovieListItem = useMemo(
+    () => ({
+      id: movie?.id || 0,
+      title: movie?.title || "",
+      poster_path: movie?.poster_path || null
+    }),
+    [movie]
+  );
   const toggleFavorite = useCallback(async () => {
     if (!isAuthenticated) return alert("Please log in!");
     if (isFavorite) removeFavorite(movieItem.id);
@@ -96,15 +99,12 @@ export default function MovieDetails() {
 
       <CommunityReviews reviews={reviews} />
 
-<ReviewModal
-  isOpen={isReviewOpen}
-  onClose={() => setIsReviewOpen(false)}
-  movieTitle={movie.title}
-  movieId={movie.id}
-/>
-
-
-
+      <ReviewModal
+        isOpen={isReviewOpen}
+        onClose={() => setIsReviewOpen(false)}
+        movieTitle={movie.title}
+        movieId={movie.id}
+      />
     </div>
   );
 }

@@ -8,7 +8,6 @@ type SignupFormProps = {
 };
 
 export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
-
   const closeModal = useAuthModalStore((state) => state.closeModal);
 
   const [email, setEmail] = useState("");
@@ -25,7 +24,10 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
       return;
     }
 
-    console.log("Форма реєстрації відправлена (поки без API):", { email, password });
+    console.log("Форма реєстрації відправлена (поки без API):", {
+      email,
+      password
+    });
     closeModal();
   };
 
@@ -58,7 +60,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        
+
         {error && <p className={styles.login__error}>{error}</p>}
 
         <button type="submit" className={styles.login__button}>
@@ -68,7 +70,11 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
 
       <p className="login-modal__signup">
         Already have an account?
-        <button type="button" className={styles.login__link} onClick={onSwitchToLogin}>
+        <button
+          type="button"
+          className={styles.login__link}
+          onClick={onSwitchToLogin}
+        >
           Login
         </button>
       </p>

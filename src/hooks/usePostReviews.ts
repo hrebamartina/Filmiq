@@ -14,7 +14,7 @@ export function usePostReview() {
       const res = await fetch("http://localhost:3001/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(review),
+        body: JSON.stringify(review)
       });
 
       if (!res.ok) {
@@ -22,11 +22,11 @@ export function usePostReview() {
       }
 
       const data = await res.json();
-      return data; 
+      return data;
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
-        throw err; 
+        throw err;
       } else {
         setError("Unknown error");
         throw new Error("Unknown error");

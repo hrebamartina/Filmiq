@@ -62,7 +62,9 @@ export default function Profile() {
         <h3 className={styles.profile__title}>My Reviews</h3>
 
         {loading && <p>Loading reviews...</p>}
-        {error && <p style={{ color: "red" }}>Failed to load reviews: {error}</p>}
+        {error && (
+          <p style={{ color: "red" }}>Failed to load reviews: {error}</p>
+        )}
 
         {!loading && loadedReviews.length === 0 && (
           <p className={styles.profile__empty}>No reviews yet.</p>

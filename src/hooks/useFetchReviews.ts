@@ -11,7 +11,7 @@ export function useFetchReviews(userId: number | undefined) {
 
     setLoading(true);
     fetch(`http://localhost:3001/reviews?userId=${userId}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data: TReview[]) => setReviews(data))
       .catch((err: unknown) => {
         if (err instanceof Error) setError(err.message);

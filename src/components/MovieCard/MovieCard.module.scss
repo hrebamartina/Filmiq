@@ -20,15 +20,14 @@
       gap: 20px;
 
       ul {
-    margin-top: 12px;
-    padding-left: 18px;
+        margin-top: 12px;
+        padding-left: 18px;
 
-    li {
-      font-size: 16px; 
-      color: #fff; 
-      
-    }
-  }
+        li {
+          font-size: 16px;
+          color: #fff;
+        }
+      }
 
       .title {
         font-weight: 400;
@@ -56,7 +55,7 @@
           cursor: pointer;
           position: relative;
 
-          &.active{
+          &.active {
             color: #ffffff;
           }
 
@@ -78,37 +77,37 @@
     }
 
     .actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(40, 37, 50, 0.5);
-  border-radius: 12px;
-  padding: 16px 24px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  gap: 40px;
-  height: fit-content;
-  align-self: flex-start;
-}
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(40, 37, 50, 0.5);
+      border-radius: 12px;
+      padding: 16px 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      gap: 40px;
+      height: fit-content;
+      align-self: flex-start;
+    }
 
-.actionItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: #f5f5f5;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.2s ease;
+    .actionItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: #f5f5f5;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s ease;
 
-  img {
-    transition: transform 0.2s ease;
-  }
+      img {
+        transition: transform 0.2s ease;
+      }
 
-  &:hover img {
-    transform: scale(1.5);
-  }
-}
+      &:hover img {
+        transform: scale(1.5);
+      }
+    }
   }
 }

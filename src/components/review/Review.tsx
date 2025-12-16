@@ -33,7 +33,7 @@ const Review: React.FC<ReviewProps> = ({ title, movieId, onClose }) => {
       movieTitle: title,
       userId: user.id,
       text,
-      date: new Date().toISOString(),
+      date: new Date().toISOString()
     };
 
     try {
