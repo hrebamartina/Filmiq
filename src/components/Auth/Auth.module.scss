@@ -4,10 +4,11 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #15141C 0%, #201B2B 100%);
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to right, #15141c 0%, #201b2b 100%);
+  font-family: "Inter", sans-serif;
   color: #fff;
   text-align: center;
+  
 
   &__title {
     font-weight: 700;
@@ -31,7 +32,7 @@
     font-size: 15px;
     outline: none;
     transition: border-color 0.2s ease;
-    margin-bottom: 29px; 
+    margin-bottom: 29px;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
@@ -42,10 +43,8 @@
     }
 
     &:first-of-type {
-      margin-top: 82px; 
+      margin-top: 82px;
     }
-
-  
   }
 
   &__button {
@@ -57,12 +56,14 @@
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
-   transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
     width: 183px;
     align-self: center;
 
     &:hover {
-      transform: scale(1.05); 
+      transform: scale(1.05);
     }
 
     &:active {
@@ -71,7 +72,7 @@
   }
 
   &__signup {
-    margin-top: 38px; 
+    margin-top: 38px;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);
   }
