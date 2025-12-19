@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
+/// <reference types="vitest" />
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     tanstackRouter({
@@ -11,12 +11,25 @@ export default defineConfig({
     }),
     react()
   ],
+
   css: {
     preprocessorOptions: {
       scss: {
-        //  дозволяє Sass шукати пакети у node_modules
         loadPaths: ["./node_modules"]
       }
+    }
+  },
+
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./vitest.setup.ts",
+    include: ["src/**/*.test.{ts,tsx}"],
+    exclude: ["cypress/**", "node_modules/**"],
+
+    coverage: {
+      provider: "istanbul",
+      reporter: ["text", "lcov"]
     }
   }
 });

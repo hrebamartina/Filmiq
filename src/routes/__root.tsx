@@ -13,7 +13,6 @@ export const Route = createRootRoute({
 function Root() {
   const userId = useProfileStore((state) => state.user?.id);
   const { fetchLists } = useListManagement(0);
-
   const setFavorites = useProfileStore((state) => state.setFavorites);
   const setWatchlist = useProfileStore((state) => state.setWatchlist);
 
