@@ -4,7 +4,14 @@ import * as api from "../../api/tmdbApi";
 import { vi } from "vitest";
 
 vi.spyOn(api, "fetchMoviesByGenre").mockImplementation(async (genreId) => [
-  { id: genreId, title: `Movie ${genreId}`, poster_path: `/poster${genreId}.jpg`, genre_ids: [genreId], overview: "Test overview", release_date: "2024-01-01" }
+  {
+    id: genreId,
+    title: `Movie ${genreId}`,
+    poster_path: `/poster${genreId}.jpg`,
+    genre_ids: [genreId],
+    overview: "Test overview",
+    release_date: "2024-01-01"
+  }
 ]);
 
 vi.mock("@tanstack/react-router", () => ({

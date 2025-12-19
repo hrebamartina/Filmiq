@@ -1,4 +1,3 @@
-
 import { render, screen, fireEvent } from "@testing-library/react";
 import LoginForm from "./LoginForm";
 import { vi } from "vitest";
@@ -14,15 +13,14 @@ vi.mock("../../hooks/useAuth", () => ({
   })
 }));
 
-vi.mock('../../store/authModalStore', () => ({
+vi.mock("../../store/authModalStore", () => ({
   useAuthModalStore: () => ({
-    modalView: 'login',
-    closeModal: vi.fn(), 
+    modalView: "login",
+    closeModal: vi.fn(),
     switchToLogin: vi.fn(),
-    switchToSignup: vi.fn(),
-  }),
+    switchToSignup: vi.fn()
+  })
 }));
-
 
 describe("LoginForm", () => {
   it("renders input fields and button", () => {
@@ -34,12 +32,19 @@ describe("LoginForm", () => {
 
   it("calls login on form submit", async () => {
     render(<LoginForm onSwitchToSignup={mockOnSwitchToSignup} />);
-    
-    fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@test.com" } });
-    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "123456" } });
+
+    fireEvent.change(screen.getByPlaceholderText("Email"), {
+      target: { value: "test@test.com" }
+    });
+    fireEvent.change(screen.getByPlaceholderText("Password"), {
+      target: { value: "123456" }
+    });
     fireEvent.click(screen.getByRole("button", { name: /Log In/i }));
 
-    expect(mockLogin).toHaveBeenCalledWith({ email: "test@test.com", password: "123456" });
+    expect(mockLogin).toHaveBeenCalledWith({
+      email: "test@test.com",
+      password: "123456"
+    });
   });
 
   it("calls onSwitchToSignup when Sign up button is clicked", () => {

@@ -6,7 +6,6 @@ const closeModalMock = vi.fn();
 const switchToLoginMock = vi.fn();
 const switchToSignupMock = vi.fn();
 
-
 let modalView = "login";
 
 vi.mock("../../store/authModalStore", () => ({
@@ -14,12 +13,14 @@ vi.mock("../../store/authModalStore", () => ({
     modalView,
     closeModal: closeModalMock,
     switchToLogin: switchToLoginMock,
-    switchToSignup: switchToSignupMock,
-  }),
+    switchToSignup: switchToSignupMock
+  })
 }));
 
 vi.mock("../UI/Modal/Modal", () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  )
 }));
 
 describe("AuthModals", () => {
@@ -28,13 +29,13 @@ describe("AuthModals", () => {
   });
 
   it("renders LoginForm when modalView is 'login'", () => {
-    modalView = "login"; 
+    modalView = "login";
     render(<AuthModals />);
     expect(screen.getByText(/log in/i)).toBeInTheDocument();
   });
 
   it("renders SignupForm when modalView is 'signup'", () => {
-    modalView = "signup"; 
+    modalView = "signup";
     render(<AuthModals />);
     expect(screen.getByText(/sign up/i)).toBeInTheDocument();
   });

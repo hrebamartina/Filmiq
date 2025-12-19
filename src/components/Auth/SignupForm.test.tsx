@@ -10,15 +10,15 @@ vi.mock("../../hooks/useAuth", () => ({
   useAuth: () => ({
     register: mockRegister,
     isLoading: false,
-    error: null,
-  }),
+    error: null
+  })
 }));
 
 vi.mock("../../store/authModalStore", () => ({
-  useAuthModalStore: (selector: (state: { closeModal: () => void }) => unknown) =>
-    selector({ closeModal: mockCloseModal }),
+  useAuthModalStore: (
+    selector: (state: { closeModal: () => void }) => unknown
+  ) => selector({ closeModal: mockCloseModal })
 }));
-
 
 describe("SignupForm", () => {
   beforeEach(() => {
@@ -31,20 +31,22 @@ describe("SignupForm", () => {
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Confirm password")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sign up/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sign up/i })
+    ).toBeInTheDocument();
   });
 
   it("calls register and closes modal on form submit", async () => {
     render(<SignupForm onSwitchToLogin={mockOnSwitchToLogin} />);
 
     fireEvent.change(screen.getByPlaceholderText("Email"), {
-      target: { value: "test@test.com" },
+      target: { value: "test@test.com" }
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "123456" },
+      target: { value: "123456" }
     });
     fireEvent.change(screen.getByPlaceholderText("Confirm password"), {
-      target: { value: "123456" },
+      target: { value: "123456" }
     });
 
     await act(async () => {
@@ -55,7 +57,7 @@ describe("SignupForm", () => {
     expect(mockRegister).toHaveBeenCalledWith({
       email: "test@test.com",
       password: "123456",
-      confirmPassword: "123456",
+      confirmPassword: "123456"
     });
 
     expect(mockCloseModal).toHaveBeenCalledTimes(1);

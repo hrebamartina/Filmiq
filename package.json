@@ -12,7 +12,10 @@
     "format": "prettier --write .",
     "preview": "vite preview",
     "prepare": "husky",
-    "server": "json-server --watch db.json --port 3001"
+    "server": "json-server --watch db.json --port 3001",
+    "start": "react-scripts start",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.134.9",
@@ -29,18 +32,19 @@
   "devDependencies": {
     "@cypress/react": "^9.0.1",
     "@cypress/vite-dev-server": "^7.0.0",
+    "@cypress/webpack-dev-server": "^5.4.1",
     "@eslint/js": "^9.36.0",
     "@tanstack/router-plugin": "^1.134.9",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@types/cypress": "^0.1.6",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.2",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/coverage-istanbul": "^4.0.15",
-    "cypress": "^15.5.0",
+    "cypress": "^15.7.1",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",

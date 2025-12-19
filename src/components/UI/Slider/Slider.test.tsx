@@ -8,7 +8,9 @@ const movies = [
 
 describe("Slider", () => {
   it("renders movies", () => {
-    render(<Slider movies={movies} onSelectMovie={vi.fn()} title="Test Slider" />);
+    render(
+      <Slider movies={movies} onSelectMovie={vi.fn()} title="Test Slider" />
+    );
     expect(screen.getByText("Movie 1")).toBeInTheDocument();
     expect(screen.getByText("Movie 2")).toBeInTheDocument();
   });

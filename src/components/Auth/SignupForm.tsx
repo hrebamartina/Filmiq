@@ -22,12 +22,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
     setFormError(null);
 
     if (password !== confirmPassword) {
-      setFormError("Passwords do not match.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setFormError("Password must be at least 6 characters long.");
+      setFormError("Passwords do not match");
       return;
     }
 
@@ -40,60 +35,61 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
   };
 
   return (
-    <div className={styles.login}>
+    <div className={styles.login} data-cy="auth-modal">
       <img src={logo} alt="logo" />
 
       <form className={styles.login__form} onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
+          data-cy="signup-email"
           className={styles.login__input}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <input
           type="password"
           placeholder="Password"
+          data-cy="signup-password"
           className={styles.login__input}
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <input
           type="password"
           placeholder="Confirm password"
+          data-cy="signup-confirm-password"
           className={styles.login__input}
           required
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-
-        {(formError || authError) && (
-          <p className={styles.login__error}>{formError || authError}</p>
-        )}
-
         <button
           type="submit"
+          data-cy="signup-submit"
           className={styles.login__button}
           disabled={isLoading}
         >
           {isLoading ? "Loading..." : "Sign up"}
         </button>
+
+        {(formError || authError) && (
+          <p data-cy="signup-error" className={styles.login__error}>
+            {formError || authError}
+          </p>
+        )}
       </form>
 
-      <p className="login-modal__signup">
-        Already have an account?
-        <button
-          type="button"
-          className={styles.login__link}
-          onClick={onSwitchToLogin}
-        >
-          Login
-        </button>
-      </p>
+      <button
+        type="button"
+        data-cy="switch-to-login"
+        className={styles.login__link}
+        onClick={onSwitchToLogin}
+      >
+        Log in
+      </button>
     </div>
   );
 }

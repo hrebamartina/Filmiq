@@ -5,11 +5,11 @@ import { vi } from "vitest";
 vi.mock("../../components/CommunityReviews/CommunityReviews", () => ({
   default: () => (
     <div data-testid="community-reviews">CommunityReviews component</div>
-  ),
+  )
 }));
 
 vi.mock("@tanstack/react-router", () => ({
-  useParams: () => ({ id: "1" }),
+  useParams: () => ({ id: "1" })
 }));
 
 interface MockResponse {
@@ -28,8 +28,8 @@ const mockedFetch: typeof fetch = vi.fn((input: RequestInfo) =>
             title: "Inception",
             overview: "A mind-bending thriller.",
             release_date: "2010-07-16",
-            vote_average: 8.8,
-          },
+            vote_average: 8.8
+          }
   } as MockResponse)
 ) as unknown as typeof fetch;
 
@@ -43,14 +43,10 @@ describe("MovieDetails", () => {
       expect(screen.getByText("Inception")).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByText("A mind-bending thriller.")
-    ).toBeInTheDocument();
+    expect(screen.getByText("A mind-bending thriller.")).toBeInTheDocument();
 
     expect(screen.getByText("2010")).toBeInTheDocument();
 
-    expect(
-      screen.getByTestId("community-reviews")
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("community-reviews")).toBeInTheDocument();
   });
 });

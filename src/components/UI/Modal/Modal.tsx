@@ -18,26 +18,25 @@ export default function Modal({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const modalRoot = document.getElementById("modal-root")!;
 
-useEffect(() => {
-  const dialog = dialogRef.current;
-  if (!dialog) return;
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
 
-  if (open && !dialog.open) {
-    dialog.showModal();
-  } else if (!open && dialog.open) {
-    dialog.close();
-  }
-}, [open]);
-
+    if (open && !dialog.open) {
+      dialog.showModal();
+    } else if (!open && dialog.open) {
+      dialog.close();
+    }
+  }, [open]);
 
   return createPortal(
     <dialog
       ref={dialogRef}
       className={`${styles.modal} ${className || ""}`}
+      data-cy="review-modal"
       onClick={(e) => {
-  if ((e.target as HTMLElement).nodeName === "DIALOG") onClose();
-}}
-
+        if ((e.target as HTMLElement).nodeName === "DIALOG") onClose();
+      }}
       onClose={onClose}
     >
       <button className={styles.modal__close} onClick={onClose}>

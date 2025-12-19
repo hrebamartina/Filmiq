@@ -113,6 +113,7 @@ export default function Header() {
                 type="button"
                 className={styles["header__nav-item"]}
                 onClick={logout}
+                data-cy="logout-button"
               >
                 Log Out
               </button>

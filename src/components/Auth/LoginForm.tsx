@@ -17,7 +17,6 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       await login({ email, password });
       closeModal();
@@ -27,13 +26,14 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   };
 
   return (
-    <div className={styles.login}>
+    <div className={styles.login} data-cy="auth-modal">
       <img src={logo} alt="logo" />
 
       <form className={styles.login__form} onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
+          data-cy="login-email"
           className={styles.login__input}
           required
           value={email}
@@ -42,6 +42,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
         <input
           type="password"
           placeholder="Password"
+          data-cy="login-password"
           className={styles.login__input}
           required
           value={password}
@@ -49,25 +50,28 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
         />
         <button
           type="submit"
+          data-cy="login-submit"
           className={styles.login__button}
           disabled={isLoading}
         >
           {isLoading ? "Loading..." : "Log In"}
         </button>
+
+        {error && (
+          <p data-cy="login-error" className={styles.login__error}>
+            {error}
+          </p>
+        )}
       </form>
 
-      {error && <p className={styles.login__error}>{error}</p>}
-
-      <p className={styles.login__signup}>
-        Don’t have an account?
-        <button
-          type="button"
-          className={styles.login__link}
-          onClick={onSwitchToSignup}
-        >
-          Sign up
-        </button>
-      </p>
+      <button
+        type="button"
+        data-cy="switch-to-signup"
+        className={styles.login__link}
+        onClick={onSwitchToSignup}
+      >
+        Sign up
+      </button>
     </div>
   );
 }

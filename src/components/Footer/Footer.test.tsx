@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import { vi } from "vitest";
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
+  Link: ({ children }: { children: React.ReactNode }) => <span>{children}</span>
 }));
 
 describe("Footer", () => {

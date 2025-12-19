@@ -57,6 +57,7 @@ export default function Slider({
         modules={[Navigation]}
         navigation
         spaceBetween={20}
+        data-cy="slider"
         slidesPerView={4}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         breakpoints={{
