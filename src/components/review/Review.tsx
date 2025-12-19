@@ -1,71 +1,84 @@
 import { useState } from "react";
-import styles from "./Review.module.scss";
-import type { TReview } from "../../store/userStore";
-import { usePostReview } from "../../hooks/usePostReviews";
+import { useReviewActions } from "../../hooks/useReviewActions";
 import { useProfileStore } from "../../store/userStore";
+import styles from "./Review.module.scss";
+import type { TReviewCreateData } from "../../hooks/useReviewActions";
 
 interface ReviewProps {
-  title: string;
   movieId: number;
+  movieTitle: string;
   onClose: () => void;
 }
 
-const Review: React.FC<ReviewProps> = ({ title, movieId, onClose }) => {
+const Review: React.FC<ReviewProps> = ({ movieId, movieTitle, onClose }) => {
   const [text, setText] = useState("");
-  const user = useProfileStore((state) => state.user);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { user } = useProfileStore((state) => state);
+  const { addReview, loading, error } = useReviewActions();
 
-  const { postReview, loading, error } = usePostReview();
-
-  const handleSave = async () => {
-    if (!text.trim()) {
-      alert("Review cannot be empty");
-      return;
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     if (!user) {
-      alert("You must be logged in!");
+      console.error("You must be logged in to post a review.");
+      setSuccessMessage(null);
       return;
     }
+    setSuccessMessage(null);
 
-    const newReview: TReview = {
-      id: Date.now(),
+    const reviewData: TReviewCreateData = {
       movieId,
-      movieTitle: title,
-      userId: user.id,
-      text,
-      date: new Date().toISOString()
+      movieTitle,
+      text
     };
 
     try {
-      await postReview(newReview);
-      alert("Review saved!");
-      onClose();
-    } catch {
-      alert("Failed to save review: " + error);
+      await addReview(reviewData);
+      setText("");
+      setSuccessMessage("Review posted successfully!");
+      setTimeout(onClose, 1000);
+    } catch (err) {
+      console.error("Failed to post review:", err);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.reviewBox}>
-        <h2 className={styles.reviewBox__title}>{title}</h2>
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <h3 className={styles.reviewBox__title}>
+          Write a Review for "{movieTitle}"
+        </h3>
+        {error && <p className={styles.reviewBox__error}>{error}</p>}
+        {successMessage && (
+          <p className={styles.reviewBox__success}>{successMessage}</p>
+        )}
 
-        <textarea
-          className={styles.reviewBox__textarea}
-          placeholder="Add a review..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
+        <form onSubmit={handleSubmit}>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Write your review here..."
+            className={styles.reviewBox__textarea}
+          />
 
-        <button
-          className={styles.reviewBox__button}
-          onClick={handleSave}
-          disabled={loading}
-        >
-          {loading ? "Saving..." : "Save"}
-        </button>
+          <div className={styles.reviewBox__buttons}>
+            <button
+              type="submit"
+              disabled={loading || !text.trim()}
+              className={styles.reviewBox__button}
+            >
+              {loading ? "Posting..." : "Post Review"}
+            </button>
 
-        {error && <p className={styles.error}>{error}</p>}
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.reviewBox__buttonClose}
+            >
+              Close
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

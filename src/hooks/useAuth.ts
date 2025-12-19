@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { useProfileStore, type TUser } from "../store/userStore";
-import { fetchData } from "./useApiData";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from "firebase/auth";
+import { auth } from "../firebase";
+import { profileStore, type TUser } from "../store/userStore";
 
 interface TLoginFormData {
   email: string;
@@ -16,12 +21,7 @@ interface TSignupFormData {
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const getProfileData = async (userId: number) => {
-    const [profile] = await fetchData(`user_profiles?id=${userId}`);
-    if (!profile) throw new Error("Profile data not found.");
-    return profile;
-  };
+  const { setUser, setFavorites, setWatchlist } = profileStore.getState();
 
   const login = async ({ email, password }: TLoginFormData): Promise<void> => {
     setIsLoading(true);
@@ -30,21 +30,22 @@ export const useAuth = () => {
     try {
       if (!email || !password)
         throw new Error("Email and password are required.");
-      if (!email.includes("@")) throw new Error("Invalid email format.");
-      if (password.length < 6)
-        throw new Error("Password must be at least 6 characters.");
-      if (email === "test@test.com" && password === "123456") {
-        const userData: TUser = { email, id: 1 };
-        const profileData = await getProfileData(userData.id);
-        useProfileStore.getState().setUser(userData);
-        useProfileStore.getState().setFavorites(profileData.favorites || []);
-        useProfileStore.getState().setWatchlist(profileData.watchlist || []);
-        localStorage.setItem("user", JSON.stringify(userData));
-      } else {
-        throw new Error("Invalid login or password.");
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Login error.";
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const firebaseUser = userCredential.user;
+
+      const userData: TUser = {
+        id: firebaseUser.uid,
+        email: firebaseUser.email!,
+        username: firebaseUser.displayName || firebaseUser.email!.split("@")[0]
+      };
+      setUser(userData);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Login error.";
+
       setError(msg);
       throw new Error(msg);
     } finally {
@@ -61,34 +62,45 @@ export const useAuth = () => {
     setError(null);
 
     try {
-      if (!email || !password || !confirmPassword)
-        throw new Error("All fields are required.");
-      if (!email.includes("@")) throw new Error("Invalid email format.");
-      if (password.length < 6)
-        throw new Error("Password must be at least 6 characters.");
       if (password !== confirmPassword)
         throw new Error("Passwords do not match.");
+      if (password.length < 6)
+        throw new Error("Password must be at least 6 characters.");
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const firebaseUser = userCredential.user;
 
-      if (!email.includes("fail")) {
-        console.log("Registration successful:", email);
-        return;
-      } else {
-        throw new Error("A user with this email already exists.");
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Registration error.";
+      const userData: TUser = {
+        id: firebaseUser.uid,
+        email: firebaseUser.email!,
+        username: email.split("@")[0]
+      };
+      setUser(userData);
+    } catch (error: unknown) {
+      const msg =
+        error instanceof Error ? error.message : "Registration error.";
+
       setError(msg);
       throw new Error(msg);
     } finally {
       setIsLoading(false);
     }
   };
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      setFavorites([]);
+      setWatchlist([]);
+    } catch (error: unknown) {
+      const msg =
+        error instanceof Error ? error.message : "Error during logout.";
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    useProfileStore.getState().setUser(null);
-    useProfileStore.getState().setFavorites([]);
-    useProfileStore.getState().setWatchlist([]);
+      setError(msg);
+    }
   };
 
   return { login, register, logout, isLoading, error };

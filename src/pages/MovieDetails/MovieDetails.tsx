@@ -5,8 +5,8 @@ import CommunityReviews from "../../components/CommunityReviews/CommunityReviews
 import ReviewModal from "../../components/review/ReviewModal";
 import styles from "./MovieDetails.module.scss";
 import type { Movie } from "../../types/movie";
-import { useProfileStore, type TMovieListItem } from "../../store/userStore";
-
+import type { TMovieListItem } from "../../store/userStore";
+import { useListManagement } from "../../hooks/useListManagement";
 interface Review {
   id: string;
   author: string;
@@ -26,17 +26,14 @@ export default function MovieDetails() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
 
-  const user = useProfileStore((state) => state.user);
-  const favorites = useProfileStore((state) => state.favorites);
-  const watchlist = useProfileStore((state) => state.watchlist);
-  const addFavorite = useProfileStore((state) => state.addFavorite);
-  const removeFavorite = useProfileStore((state) => state.removeFavorite);
-  const addWatchlist = useProfileStore((state) => state.addWatchlist);
-  const removeWatchlist = useProfileStore((state) => state.removeWatchlist);
-
-  const isFavorite = favorites.some((m) => m.id === movieId);
-  const inWatchlist = watchlist.some((m) => m.id === movieId);
-  const isAuthenticated = !!user;
+  const {
+    isFavorite,
+    inWatchlist,
+    toggleFavorite,
+    toggleWatchlist,
+    isListLoading,
+    isAuthenticated
+  } = useListManagement(movieId);
   const movieItem: TMovieListItem = useMemo(
     () => ({
       id: movie?.id || 0,
@@ -45,18 +42,20 @@ export default function MovieDetails() {
     }),
     [movie]
   );
-  const toggleFavorite = useCallback(async () => {
-    if (!isAuthenticated) return alert("Please log in!");
-    if (isFavorite) removeFavorite(movieItem.id);
-    else addFavorite(movieItem);
-  }, [isAuthenticated, isFavorite, addFavorite, removeFavorite, movieItem]);
-
-  const toggleWatchlist = useCallback(async () => {
-    if (!isAuthenticated) return alert("Please log in!");
-    if (inWatchlist) removeWatchlist(movieItem.id);
-    else addWatchlist(movieItem);
-  }, [isAuthenticated, inWatchlist, addWatchlist, removeWatchlist, movieItem]);
-
+  const handleToggleFavorite = useCallback(async (): Promise<void> => {
+    if (!isAuthenticated) {
+      console.warn("User must be logged in to toggle favorite.");
+      return;
+    }
+    await toggleFavorite(movieItem);
+  }, [isAuthenticated, toggleFavorite, movieItem]);
+  const handleToggleWatchlist = useCallback(async (): Promise<void> => {
+    if (!isAuthenticated) {
+      console.warn("User must be logged in to toggle watchlist.");
+      return;
+    }
+    await toggleWatchlist(movieItem);
+  }, [isAuthenticated, toggleWatchlist, movieItem]);
   useEffect(() => {
     async function fetchMovie() {
       try {
@@ -73,8 +72,8 @@ export default function MovieDetails() {
         if (!reviewsRes.ok) throw new Error(reviewsRes.statusText);
         const reviewsData = await reviewsRes.json();
         setReviews(reviewsData.results || []);
-      } catch (error) {
-        console.error("Error fetching movie:", error);
+      } catch (err) {
+        console.error("Error fetching movie:", err);
       }
     }
 
@@ -87,18 +86,16 @@ export default function MovieDetails() {
     <div className={styles.random}>
       <MovieCard
         movie={movie}
-        showActions={true}
+        showActions
         onReviewClick={() => setIsReviewOpen(true)}
         isFavorite={isFavorite}
         inWatchlist={inWatchlist}
-        isListLoading={false}
+        isListLoading={isListLoading}
         isAuthenticated={isAuthenticated}
-        onToggleFavorite={toggleFavorite}
-        onToggleWatchlist={toggleWatchlist}
+        onToggleFavorite={handleToggleFavorite}
+        onToggleWatchlist={handleToggleWatchlist}
       />
-
       <CommunityReviews reviews={reviews} />
-
       <ReviewModal
         isOpen={isReviewOpen}
         onClose={() => setIsReviewOpen(false)}

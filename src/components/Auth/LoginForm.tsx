@@ -10,7 +10,7 @@ type LoginFormProps = {
 
 export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   const closeModal = useAuthModalStore((state) => state.closeModal);
-  const { login, isLoading, error } = useAuth(); // підключаємо useAuth
+  const { login, isLoading, error } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

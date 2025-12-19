@@ -4,6 +4,7 @@ import oclockIcon from "../../assets/oclockIcon.svg";
 import pencilIcon from "../../assets/pencilIcon.svg";
 import { useState } from "react";
 import type { Movie } from "../../types/movie";
+import { useAuthModalStore } from "../../store/authModalStore";
 
 interface MovieCardProps {
   movie: Movie;
@@ -32,9 +33,11 @@ export default function MovieCard({
     "cast"
   );
 
+  const openAuthModal = useAuthModalStore((state) => state.openModal);
+
   const handleActionClick = (action: () => Promise<void>) => {
     if (!isAuthenticated) {
-      alert("Please log in to manage your lists.");
+      openAuthModal("login");
       return;
     }
     action();
@@ -53,9 +56,11 @@ export default function MovieCard({
           <p className={styles.title}>
             <strong>Title:</strong> {movie.title}
           </p>
+
           <p className={styles.title}>
             <strong>Year:</strong> {movie.release_date?.slice(0, 4)}
           </p>
+
           <p className={styles.description}>
             {movie.overview || "No description available."}
           </p>
@@ -67,12 +72,14 @@ export default function MovieCard({
             >
               Cast
             </button>
+
             <button
               onClick={() => setActiveTab("crew")}
               className={activeTab === "crew" ? styles.active : ""}
             >
               Crew
             </button>
+
             <button
               onClick={() => setActiveTab("genres")}
               className={activeTab === "genres" ? styles.active : ""}
@@ -100,6 +107,7 @@ export default function MovieCard({
               ))}
             </ul>
           )}
+
           {activeTab === "genres" && (
             <ul>
               {movie.genres?.map((g) => (
@@ -112,21 +120,27 @@ export default function MovieCard({
         {showActions && (
           <div className={styles.actions}>
             <div
-              className={`${styles.actionItem} ${isFavorite ? styles.favoriteActive : ""}`}
+              className={`${styles.actionItem} ${
+                isFavorite ? styles.favoriteActive : ""
+              }`}
               onClick={() => handleActionClick(onToggleFavorite)}
             >
-              <img src={heartIcon} alt="like" />
+              <img src={heartIcon} alt="favorite" />
               <span>{isFavorite ? "In favorites" : "Add to favorites"}</span>
               {isListLoading && <span className={styles.loading}>...</span>}
             </div>
+
             <div
-              className={`${styles.actionItem} ${inWatchlist ? styles.watchlistActive : ""}`}
+              className={`${styles.actionItem} ${
+                inWatchlist ? styles.watchlistActive : ""
+              }`}
               onClick={() => handleActionClick(onToggleWatchlist)}
             >
               <img src={oclockIcon} alt="watchlist" />
               <span>{inWatchlist ? "In watchlist" : "Watch later"}</span>
               {isListLoading && <span className={styles.loading}>...</span>}
             </div>
+
             <div className={styles.actionItem} onClick={onReviewClick}>
               <img src={pencilIcon} alt="review" />
               <span>Write a Review</span>

@@ -3,15 +3,17 @@ import Slider from "../../components/UI/Slider/Slider";
 import avatarIcon from "../../assets/avatarIcon.svg";
 import styles from "./Profile.module.scss";
 import { useFetchReviews } from "../../hooks/useFetchReviews";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function Profile() {
   const { favorites, watchlist, user } = useProfileStore();
   const userId = user?.id;
 
   const { reviews: loadedReviews, loading, error } = useFetchReviews(userId);
+  const navigate = useNavigate();
 
   const handleMovieSelect = (movie: TMovieListItem) => {
-    console.log("Selected movie:", movie);
+    navigate({ to: "/movie/$id", params: { id: movie.id.toString() } });
   };
 
   const uniqueWatchlist = watchlist.filter(
@@ -33,10 +35,10 @@ export default function Profile() {
         <div className={styles.profile__stats}>
           <p>Added movies this month: {favorites.length + watchlist.length}</p>
           <p>Total added movies: {favorites.length + watchlist.length}</p>
-          <p>Favorite genre: –</p>
           <p>Reviews written: {loadedReviews.length}</p>
         </div>
       </section>
+
       <section className={styles.profile__lists}>
         {favorites.length > 0 && (
           <Slider
@@ -58,6 +60,7 @@ export default function Profile() {
           <p className={styles.profile__empty}>No movies added yet.</p>
         )}
       </section>
+
       <section className={styles.profile__reviews}>
         <h3 className={styles.profile__title}>My Reviews</h3>
 
@@ -76,7 +79,7 @@ export default function Profile() {
             <div key={r.id} className={styles.profile__review}>
               <h4>{r.movieTitle}</h4>
               <p>{r.text}</p>
-              <small>{new Date(r.date).toLocaleString()}</small>
+              <small>{new Date(r.createdAt).toLocaleString()}</small>
             </div>
           ))}
       </section>

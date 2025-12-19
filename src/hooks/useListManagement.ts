@@ -1,20 +1,20 @@
-import { useProfileStore, type TMovieListItem } from "../store/userStore";
-import { useMutation } from "./useApiData";
-import { useCallback, useMemo } from "react";
+import { useCallback, useState } from "react";
+import {
+  doc,
+  collection,
+  setDoc,
+  deleteDoc,
+  getDocs
+} from "firebase/firestore";
+import { db } from "../firebase";
+import type { TMovieListItem } from "../store/userStore";
+import { useProfileStore } from "../store/userStore";
 
 type ListType = "favorites" | "watchlist";
 
-type ProfileUpdateResponse = {
-  favorites?: TMovieListItem[];
-  watchlist?: TMovieListItem[];
-};
-
 export const useListManagement = (movieId: number) => {
-  const {
-    mutate,
-    isLoading: isListLoading,
-    error
-  } = useMutation<ProfileUpdateResponse>();
+  const [isListLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     user,
@@ -26,93 +26,107 @@ export const useListManagement = (movieId: number) => {
     removeWatchlist,
     setFavorites,
     setWatchlist
-  } = useProfileStore((state) => ({
-    user: state.user,
-    favorites: state.favorites,
-    watchlist: state.watchlist,
-    addFavorite: state.addFavorite,
-    removeFavorite: state.removeFavorite,
-    addWatchlist: state.addWatchlist,
-    removeWatchlist: state.removeWatchlist,
-    setFavorites: state.setFavorites,
-    setWatchlist: state.setWatchlist
-  }));
+  } = useProfileStore();
 
   const userId = user?.id;
 
-  const isFavorite = useMemo(
-    () => favorites.some((m) => m.id === movieId),
-    [favorites, movieId]
+  const getUserCollectionRef = useCallback(
+    (list: ListType) => {
+      if (!userId) throw new Error("User not logged in");
+      return collection(db, "users", userId, list);
+    },
+    [userId]
   );
 
-  const inWatchlist = useMemo(
-    () => watchlist.some((m) => m.id === movieId),
-    [watchlist, movieId]
-  );
+  const fetchLists = useCallback(async () => {
+    if (!userId) return;
+    setIsLoading(true);
+    setError(null);
 
-  const handleToggleList = useCallback(
-    async (list: ListType, movieData: TMovieListItem) => {
-      if (!userId) {
-        alert("Please log in");
-        return;
-      }
+    try {
+      const favSnap = await getDocs(getUserCollectionRef("favorites"));
+      setFavorites(
+        favSnap.docs.map((doc) => ({
+          id: Number(doc.id),
+          title: doc.data().title,
+          poster_path: doc.data().poster_path
+        }))
+      );
 
-      const isInList = list === "favorites" ? isFavorite : inWatchlist;
-      const currentList = list === "favorites" ? favorites : watchlist;
-      const setList = list === "favorites" ? setFavorites : setWatchlist;
-      const addItem = list === "favorites" ? addFavorite : addWatchlist;
-      const removeItem =
-        list === "favorites" ? removeFavorite : removeWatchlist;
+      const watchSnap = await getDocs(getUserCollectionRef("watchlist"));
+      setWatchlist(
+        watchSnap.docs.map((doc) => ({
+          id: Number(doc.id),
+          title: doc.data().title,
+          poster_path: doc.data().poster_path
+        }))
+      );
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId, getUserCollectionRef, setFavorites, setWatchlist]);
 
-      const newList = isInList
-        ? currentList.filter((m) => m.id !== movieId)
-        : [...currentList, movieData];
+  const toggleList = useCallback(
+    async (list: ListType, movie: TMovieListItem) => {
+      if (!userId) return;
+      setIsLoading(true);
+      setError(null);
 
-      const prevList = currentList;
-      if (isInList) removeItem(movieId);
-      else addItem(movieData);
+      const isInList =
+        list === "favorites"
+          ? favorites.some((m) => m.id === movie.id)
+          : watchlist.some((m) => m.id === movie.id);
 
       try {
-        await mutate(`user_profiles/${userId}`, "PATCH", {
-          [list]: newList
-        });
-      } catch {
-        alert("Error, try again");
-        setList(prevList);
+        const docRef = doc(getUserCollectionRef(list), String(movie.id));
+
+        if (list === "favorites") {
+          if (isInList) removeFavorite(movie.id);
+          else addFavorite(movie);
+        } else {
+          if (isInList) removeWatchlist(movie.id);
+          else addWatchlist(movie);
+        }
+
+        if (isInList) await deleteDoc(docRef);
+        else
+          await setDoc(docRef, {
+            title: movie.title,
+            poster_path: movie.poster_path
+          });
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Unknown error";
+        setError(message);
+      } finally {
+        setIsLoading(false);
       }
     },
     [
       userId,
-      isFavorite,
-      inWatchlist,
       favorites,
       watchlist,
+      getUserCollectionRef,
       addFavorite,
       removeFavorite,
       addWatchlist,
-      removeWatchlist,
-      setFavorites,
-      setWatchlist,
-      movieId,
-      mutate
+      removeWatchlist
     ]
   );
 
-  const toggleFavorite = useCallback(
-    (movie: TMovieListItem) => handleToggleList("favorites", movie),
-    [handleToggleList]
-  );
-
-  const toggleWatchlist = useCallback(
-    (movie: TMovieListItem) => handleToggleList("watchlist", movie),
-    [handleToggleList]
-  );
+  const isFavorite = favorites.some((m) => m.id === movieId);
+  const inWatchlist = watchlist.some((m) => m.id === movieId);
 
   return {
     isFavorite,
     inWatchlist,
-    toggleFavorite,
-    toggleWatchlist,
+    toggleFavorite: async (movie: TMovieListItem) =>
+      toggleList("favorites", movie),
+    toggleWatchlist: async (movie: TMovieListItem) =>
+      toggleList("watchlist", movie),
+    fetchLists,
     isListLoading,
     error,
     isAuthenticated: !!userId

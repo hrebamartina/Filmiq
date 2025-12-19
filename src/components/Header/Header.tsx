@@ -4,6 +4,8 @@ import searchIcon from "../../assets/searchIcon.svg";
 import profileIcon from "../../assets/profileIcon.svg";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuthModalStore } from "../../store/authModalStore";
+import { useProfileStore } from "../../store/userStore";
+import { useAuth } from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
 
 type MovieSearchResult = {
@@ -14,6 +16,9 @@ type MovieSearchResult = {
 
 export default function Header() {
   const openModal = useAuthModalStore((state) => state.openModal);
+  const user = useProfileStore((state) => state.user);
+  const isAuthenticated = !!user;
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const [query, setQuery] = useState("");
@@ -30,7 +35,9 @@ export default function Header() {
       setLoading(true);
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+          `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&query=${encodeURIComponent(
+            query
+          )}`
         );
         const data = await res.json();
         setResults(data.results || []);
@@ -63,7 +70,7 @@ export default function Header() {
           />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search movies..."
             className={styles["header__search-input"]}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -87,24 +94,38 @@ export default function Header() {
         </div>
 
         <nav className={styles.header__nav}>
-          <Link to="/profile" className={styles["header__nav-item"]}>
-            <img src={profileIcon} alt="Profile icon" />
-            Profile
-          </Link>
           <Link to="/" className={styles["header__nav-item"]}>
             Home
           </Link>
+
           <Link to="/randomMovie" className={styles["header__nav-item"]}>
             Random Movie
           </Link>
 
-          <button
-            type="button"
-            className={styles["header__nav-item"]}
-            onClick={() => openModal("login")}
-          >
-            Log In
-          </button>
+          {isAuthenticated ? (
+            <>
+              <Link to="/profile" className={styles["header__nav-item"]}>
+                <img src={profileIcon} alt="Profile icon" />
+                Profile
+              </Link>
+
+              <button
+                type="button"
+                className={styles["header__nav-item"]}
+                onClick={logout}
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              className={styles["header__nav-item"]}
+              onClick={() => openModal("login")}
+            >
+              Log In
+            </button>
+          )}
         </nav>
       </div>
     </header>
